@@ -7,8 +7,6 @@
 void List::pushFront(Student* newstudent)
 {
 	newstudent->next = head;
-	newstudent->id = 1;
-	head->id = 2;
 	head = newstudent;
 	std::cout << "Student added to front!" << std::endl;
 }
@@ -24,21 +22,53 @@ void List::pushEnd(Student * newstudent)
 	newstudent->next = NULL;
 	std::cout << "Student added to end!" <<std:: endl;
 }
-void List::remove(int id)
+Student* List:: search(int i)
 {
-	Student* ptr = head;
-	Student* node;
-	while (ptr->next->id!=id && ptr->next)
-		ptr = ptr->next;
-	if (ptr->next->next)
-		ptr->next = ptr->next->next;
-	else
-		ptr->next = NULL;
-	std::cout << "Student number" << id << " is removed!" << std::endl;
+	Student* temp= head;
+	while (temp->id != i&&temp->next)
+		temp = temp->next;
+	return temp;
+}
+bool List::remove(int id)
+{
+	Student* current = head;
+	Student* temp;	
+	if (current->id == id)
+	{
+		head = head->next;
+		delete current;
+		return true;
+	}
+	while ( current->next)
+	{
+		if (current->next->id == id)
+		{
+			temp = current->next;
+			current->next = current->next->next;
+			delete temp;
+			std::cout << "Student number" << id << " is removed!" << std::endl;
+			return true;
+		}
+		if (current->next == NULL)
+		{
+		std::cout << "Student not found" << std::endl;
+		return false;
+		}
+		current = current->next;
+	}
 }
 void List::clean()
 {
+	Student* current=head;
+	Student* temp;
+	while (current != NULL)
+	{
+		temp = current->next;
+		free( current);
+		current = temp;
+	}
 	head = NULL;
+	std::cout << "List removed" << std::endl;
 }
 int List::size()
 {
@@ -58,12 +88,15 @@ int List::size()
 
 void List::printlist()
 {
-	
+	int counter = 0;
 	Student* ptr = head;
+	if (head == NULL)
+		std::cout << "List is empty" << std::endl;
 	while (ptr)
 	{
 		std::cout << ptr->name << ptr->id<<std::endl;
 		ptr = ptr->next;
+		counter++;
 	} 
-
+	std::cout << counter << " elements in List" << std::endl;
 }

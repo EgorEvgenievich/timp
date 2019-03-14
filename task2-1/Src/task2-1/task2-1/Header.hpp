@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "iostream"
 #include "string"
+#include <stdlib.h> 
+#include <malloc.h>
 struct Student
 {
 	std::string name;
@@ -17,7 +19,8 @@ public:
 	List(Student* firststudent) { head = firststudent; }
 	void pushFront(Student* newstudent);
 	void pushEnd(Student* newstudent);
-	void remove(int id);
+	Student* search(int i);
+	bool remove(int id);
 	void clean();
 	int size(); 
 	void printlist();
